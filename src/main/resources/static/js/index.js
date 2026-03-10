@@ -1,239 +1,70 @@
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM yuklandi - JavaScript ishga tushdi');
+document.addEventListener('DOMContentLoaded', () => {
+    // Elements for Modal
+    const modal = document.getElementById('login-modal');
+    const heroLoginBtn = document.getElementById('hero-login-btn');
+    const navLoginBtn = document.getElementById('nav-login-btn');
+    const closeBtn = document.querySelector('.close-btn');
+    const loginForm = document.getElementById('login-form');
 
-    const loginBtn = document.getElementById('loginBtn');
-    const ctaLoginBtn = document.getElementById('ctaLoginBtn');
-    const modal = document.getElementById('loginModal');
-    const closeBtn = document.getElementById('closeModal');
-    const loginForm = document.getElementById('loginForm');
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const contactForm = document.getElementById('contactForm');
+    // Open Modal function
+    const openModal = () => {
+        modal.classList.remove('hidden'); // In case it has display:none logic
+        // Slight delay to ensure CSS transition triggers properly
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    };
 
-    if (loginBtn) {
-        loginBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            console.log('Login tugmasi bosildi');
-            openModal();
-        });
-    }
+    // Close Modal function
+    const closeModal = () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            // Optional: reset form fields when closed
+            loginForm.reset();
+        }, 300); // 300ms matches CSS transition time
+    };
 
-    if (ctaLoginBtn) {
-        ctaLoginBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            console.log('CTA tugmasi bosildi');
-            openModal();
-        });
-    }
+    // Event Listeners for opening modal
+    if(heroLoginBtn) heroLoginBtn.addEventListener('click', openModal);
+    if(navLoginBtn) navLoginBtn.addEventListener('click', openModal);
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-            closeModal();
-        });
-    }
+    // Event Listener for closing modal via X button
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
 
-    function openModal() {
-        const modal = document.getElementById('loginModal');
-        if (modal) {
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            console.log('Modal ochildi');
-        }
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('loginModal');
-        if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            console.log('Modal yopildi');
-        }
-    }
-
-    window.addEventListener('click', function (event) {
-        const modal = document.getElementById('loginModal');
-        if (event.target === modal) {
+    // Close modal if user clicks outside of the modal content
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
             closeModal();
         }
     });
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            console.log('Login form submit qilindi');
+    // Handle Form Submission (MVP Mock Login)
+    if(loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const role = document.getElementById('role').value;
+            // Get selected role
+            const roleSelect = document.getElementById('role');
+            const selectedRole = roleSelect.value;
 
-            console.log('Username:', username);
-            console.log('Password:', password);
-            console.log('Role:', role);
+            const btn = loginForm.querySelector('button[type="submit"]');
 
-            if (!username || !password || !role) {
-                showNotification('Iltimos, barcha maydonlarni to\'ldiring', 'error');
-                return;
-            }
+            // Add a little fake loading animation
+            const originalText = btn.innerText;
+            btn.innerText = "Authenticating...";
+            btn.style.opacity = "0.8";
 
-            // Rolega qarab redirect
-            let redirectUrl = '';
-            let roleName = '';
-
-            switch (role) {
-                case 'director':
-                    redirectUrl = 'html/director.html';
-                    roleName = 'Director';
-                    break;
-                case 'manager':
-                    redirectUrl = 'html/manager.html';
-                    roleName = 'Manager';
-                    break;
-                case 'cashier':
-                    redirectUrl = 'html/cashier.html';
-                    roleName = 'Cashier';
-                    break;
-                case 'teacher':
-                    redirectUrl = 'html/teacher.html';
-                    roleName = 'Teacher';
-                    break;
-                default:
-                    showNotification('Noto\'g\'ri role tanlandi', 'error');
-                    return;
-            }
-
-            showNotification(`Xush kelibsiz, ${roleName}!`, 'success');
-
-            closeModal();
-
-            setTimeout(function () {
-                console.log('Redirect:', redirectUrl);
-                window.location.href = redirectUrl;
-            }, 1000);
-        });
-    }
-
-    function showNotification(message, type = 'info') {
-        // Notification elementini yaratish
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-
-
-        let icon = 'fa-info-circle';
-        if (type === 'success') icon = 'fa-check-circle';
-        if (type === 'error') icon = 'fa-exclamation-circle';
-
-        notification.innerHTML = `
-            <i class="fas ${icon}"></i>
-            <span>${message}</span>
-        `;
-
-        const style = document.createElement('style');
-        style.textContent = `
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 25px;
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                z-index: 9999;
-                animation: slideIn 0.3s ease;
-                border-left: 4px solid;
-            }
-            .notification.success {
-                border-left-color: #2ecc71;
-            }
-            .notification.success i {
-                color: #2ecc71;
-            }
-            .notification.error {
-                border-left-color: #e74c3c;
-            }
-            .notification.error i {
-                color: #e74c3c;
-            }
-            .notification.info {
-                border-left-color: #3498db;
-            }
-            .notification.info i {
-                color: #3498db;
-            }
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
+            // Mock authentication delay (600ms)
+            setTimeout(() => {
+                if (selectedRole) {
+                    // Redirect to the appropriate dashboard
+                    window.location.href = 'html/' + selectedRole + '.html';
+                } else {
+                    alert("Please select a role.");
+                    btn.innerText = originalText;
+                    btn.style.opacity = "1";
                 }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-        `;
-
-        document.head.appendChild(style);
-        document.body.appendChild(notification);
-
-        // 3 soniyadan keyin o'chirish
-        setTimeout(function () {
-            notification.remove();
-        }, 3000);
-    }
-
-
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function () {
-            navMenu.classList.toggle('active');
+            }, 600);
         });
     }
-
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Mobile menuni yopish
-                if (navMenu) {
-                    navMenu.classList.remove('active');
-                }
-            }
-        });
-    });
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const message = document.getElementById('contactMessage').value;
-
-            if (name && email && message) {
-                showNotification('Xabaringiz yuborildi!', 'success');
-                this.reset();
-            } else {
-                showNotification('Iltimos, barcha maydonlarni to\'ldiring', 'error');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', function () {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-        }
-    });
-
-    console.log('Barcha event listenerlar qo\'shildi');
 });
