@@ -8,6 +8,7 @@ public class MvpForSchoolApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MvpForSchoolApplication.class, args);
+        System.out.println("Abdulloh");
     }
 
 }
