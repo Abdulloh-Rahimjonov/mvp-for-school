@@ -1,0 +1,308 @@
+/* Teacher Portal Styling */
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 280px;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.sidebar-header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav {
+    padding: 2rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    padding: 1rem 1.25rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(var(--primary-color-rgb), 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 0;
+}
+
+.nav-item * {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-item:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    box-shadow: inset 3px 0 0 #d946ef; /* Fuchsia accent for teacher */
+}
+
+.nav-item.active::before {
+    opacity: 1;
+}
+
+/* Main Content area */
+.main-content {
+    flex: 1;
+    padding: 2.5rem 4rem;
+    overflow-y: auto;
+    position: relative;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem 2.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+}
+
+.section-content {
+    display: none;
+    animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+.section-content.active {
+    display: block;
+}
+
+/* Cards & Tables */
+.table-container, .chart-card {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.table-header h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.data-table th, .data-table td {
+    padding: 1.2rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.data-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.data-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.data-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+    transform: scale(1.01);
+}
+
+.badge {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific Teacher grid layout */
+.dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        align-items: start;
+    }
+}
+
+/* Animations */
+@keyframes scaleUp {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #d946ef, #8b5cf6); /* fuchsia to purple */
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(217, 70, 239, 0.3);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 25px rgba(217, 70, 239, 0.4);
+}
+
+.btn-outline {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: white;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+
+.input-group select, .input-group input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.2rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+}
+
+.input-group select:focus, .input-group input:focus {
+    outline: none;
+    border-color: #d946ef;
+    box-shadow: 0 0 0 4px rgba(217, 70, 239, 0.15);
+}
+
+.class-card {
+    background: rgba(0,0,0,0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class-card:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: #d946ef;
+    transform: translateX(5px);
+}
+
+.class-card.active {
+    background: linear-gradient(135deg, rgba(217, 70, 239, 0.1), rgba(139, 92, 246, 0.1));
+    border-color: #d946ef;
+    border-left: 4px solid #d946ef;
+}

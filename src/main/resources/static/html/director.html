@@ -6,20 +6,148 @@
     <title>Director Dashboard | Ozone School</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/director.css">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/director.js" defer></script>
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo">
-        <span class="logo-icon">D</span>
-        Director Portal
-    </div>
-    <a href="../index.html" class="btn btn-outline">Logout</a>
-</nav>
-<main class="hero" style="min-height: 60vh; justify-content: center; text-align: center;">
-    <div class="glass-card" style="width: 100%; max-width: 800px; animation: slideUp 0.6s ease-out;">
-        <h1 class="text-gradient" style="margin-bottom: 1rem;">Welcome, Director</h1>
-        <p>You have full access to the school administration features.</p>
-    </div>
-</main>
+
+<div class="blob shape-1" style="background: radial-gradient(circle, #3b82f6 0%, transparent 70%);"></div>
+<div class="blob shape-2" style="background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);"></div>
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">D</span>
+                Ozone
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <span>📊</span> School Overview
+            </a>
+            <a href="../index.html" class="nav-item" style="margin-top: auto; color: #ef4444;">
+                <span>🚪</span> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <div>
+                <h2 class="text-gradient" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Director Portal</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Global School Statistics & Analytics</p>
+            </div>
+            <div class="user-profile">
+                <div class="avatar" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">D</div>
+                <div>
+                    <div style="font-weight: 600;">Bekmurod R.</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Executive Director</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="section-content active">
+
+            <!-- Revenue Stats -->
+            <div class="stats-container">
+                <div class="stat-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);">
+                    <h4 id="statLabel1">Today's Revenue</h4>
+                    <div class="amount" id="statVal1" style="color: white;">15,000,000 UZS</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Click Payments</h4>
+                    <div class="amount" id="statVal2" style="color: #60a5fa; font-size: 1.4rem;">6,000,000 UZS</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Payme Payments</h4>
+                    <div class="amount" id="statVal3" style="color: #a78bfa; font-size: 1.4rem;">5,000,000 UZS</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Cash Received</h4>
+                    <div class="amount" id="statVal4" style="color: #34d399; font-size: 1.4rem;">4,000,000 UZS</div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="dashboard-grid">
+
+                <!-- Financial Chart -->
+                <div class="chart-card">
+                    <div class="table-header">
+                        <h3>Revenue Sources</h3>
+                        <div class="custom-select">
+                            <select onchange="handleRevenueFilter(event)">
+                                <option value="daily">Today</option>
+                                <option value="weekly">This Week</option>
+                                <option value="monthly">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="position: relative; height: 100%; width: 100%;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Attendance Chart -->
+                <div class="chart-card">
+                    <div class="table-header">
+                        <h3>Class Attendance Focus</h3>
+                        <div class="custom-select">
+                            <select onchange="handleAttendanceFilter(event)">
+                                <option value="daily">Today</option>
+                                <option value="weekly">This Week</option>
+                                <option value="monthly">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="position: relative; height: 100%; width: 100%;">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Classes Overview -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>General Performance Metrics</h3>
+                </div>
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Metric Name</th>
+                        <th>Current Status</th>
+                        <th>Trend</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="font-weight: 500;">Overall School Attendance</td>
+                        <td>96.5%</td>
+                        <td><span style="color: #10b981; font-weight: 600;">↑ +1.2%</span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500;">Total Active Enrolled Students</td>
+                        <td>1,240</td>
+                        <td><span style="color: #10b981; font-weight: 600;">↑ +15 since last week</span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 500;">Pending Tuitions Ratio</td>
+                        <td>8% (99 students)</td>
+                        <td><span style="color: #f59e0b; font-weight: 600;">↓ -2%</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
 </body>
 </html>

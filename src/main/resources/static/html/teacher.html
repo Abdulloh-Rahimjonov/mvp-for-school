@@ -6,20 +6,109 @@
     <title>Teacher Dashboard | Ozone School</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/teacher.css">
+    <script src="../js/teacher.js" defer></script>
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo">
-        <span class="logo-icon">T</span>
-        Teacher Portal
-    </div>
-    <a href="../index.html" class="btn btn-outline">Logout</a>
-</nav>
-<main class="hero" style="min-height: 60vh; justify-content: center; text-align: center;">
-    <div class="glass-card" style="width: 100%; max-width: 800px; animation: slideUp 0.6s ease-out;">
-        <h1 class="text-gradient" style="margin-bottom: 1rem;">Welcome, Teacher</h1>
-        <p>Access your classes, student analytics, and course materials here.</p>
-    </div>
-</main>
+
+<!-- Background decorative elements -->
+<div class="blob shape-1" style="background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);"></div>
+<div class="blob shape-2" style="background: radial-gradient(circle, #d946ef 0%, transparent 70%);"></div>
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">T</span>
+                Ozone
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="my-classes">
+                <span>📚</span> My Classes
+            </a>
+            <a href="../index.html" class="nav-item" style="margin-top: auto; color: #ef4444;">
+                <span>🚪</span> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <div>
+                <h2 class="text-gradient" style="background: linear-gradient(135deg, #8b5cf6, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Teacher Portal</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Class Management & Attendance</p>
+            </div>
+            <div class="user-profile">
+                <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #d946ef);">T</div>
+                <div>
+                    <div style="font-weight: 600;">Timur U.</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">English Teacher</div>
+                </div>
+            </div>
+        </header>
+
+        <section id="my-classes" class="section-content active">
+            <div class="dashboard-grid">
+
+                <!-- Sidebar for selecting classes -->
+                <div class="chart-card" style="height: auto; padding: 1.5rem;">
+                    <div class="table-header">
+                        <h3>My Assigned Classes</h3>
+                    </div>
+                    <div id="classListContainer">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Main pane for attendance and topic -->
+                <div class="table-container" style="margin-bottom: 0;">
+                    <!-- Placeholder when no class is selected -->
+                    <div id="noClassSelected" style="text-align: center; padding: 4rem 2rem; color: var(--text-secondary);">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🏫</div>
+                        <h3>No Class Selected</h3>
+                        <p>Please select a class from the left to view students, topic, and attendance.</p>
+                    </div>
+
+                    <!-- Real content shown after selecting -->
+                    <div id="studentsSection" style="display: none;">
+                        <div class="table-header">
+                            <h3 id="currentClassHeader">Class Name Here</h3>
+                        </div>
+
+                        <form>
+                            <div class="input-group">
+                                <label>Today's Topic (Bugungi mavzu)</label>
+                                <input type="text" id="todayTopic" placeholder="e.g. Present Perfect Tense">
+                            </div>
+                        </form>
+
+                        <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: white;">Attendance List</h4>
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Attendance</th>
+                            </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                            <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                            <button class="btn btn-primary" onclick="saveTopicAndAttendance()">Save Topic & Attendance</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</div>
 </body>
 </html>

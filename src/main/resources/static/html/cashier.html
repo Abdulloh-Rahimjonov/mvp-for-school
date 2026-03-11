@@ -6,20 +6,192 @@
     <title>Cashier Dashboard | Ozone School</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/cashier.css">
+    <script src="../js/cashier.js" defer></script>
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo">
-        <span class="logo-icon">C</span>
-        Cashier Portal
-    </div>
-    <a href="../index.html" class="btn btn-outline">Logout</a>
-</nav>
-<main class="hero" style="min-height: 60vh; justify-content: center; text-align: center;">
-    <div class="glass-card" style="width: 100%; max-width: 800px; animation: slideUp 0.6s ease-out;">
-        <h1 class="text-gradient" style="margin-bottom: 1rem;">Welcome, Cashier</h1>
-        <p>Manage tuition payments, invoices, and financial reports.</p>
-    </div>
-</main>
+
+<!-- Background decorative elements -->
+<div class="blob shape-1" style="background: radial-gradient(circle, #10b981 0%, transparent 70%);"></div>
+<div class="blob shape-2" style="background: radial-gradient(circle, #059669 0%, transparent 70%);"></div>
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon" style="background: linear-gradient(135deg, #10b981, #059669);">C</span>
+                Ozone
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="student-payments">
+                <span>👥</span> Student Payments
+            </a>
+            <a href="#" class="nav-item" data-section="process-payment">
+                <span>💳</span> Process Payment
+            </a>
+            <a href="#" class="nav-item" data-section="transaction-history">
+                <span>📜</span> Transaction History
+            </a>
+            <a href="../index.html" class="nav-item" style="margin-top: auto; color: #ef4444;">
+                <span>🚪</span> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <div>
+                <h2 class="text-gradient" style="background: linear-gradient(135deg, #10b981, #34d399); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Cashier Portal</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Manage School Finances</p>
+            </div>
+            <div class="user-profile">
+                <div class="avatar" style="background: linear-gradient(135deg, #10b981, #059669);">C</div>
+                <div>
+                    <div style="font-weight: 600;">Dilnoza R.</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Chief Cashier</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Student Payments Section -->
+        <section id="student-payments" class="section-content active">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Students Tuition Status</h3>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="flex: 2;">
+                        <input type="text" id="studentSearchInput" class="search-bar" style="margin-bottom: 0;" placeholder="Search by name or ID..." onkeyup="filterPayments()">
+                    </div>
+                    <div style="flex: 1;">
+                        <select id="classFilter" class="search-bar" style="margin-bottom: 0; padding: 1rem; cursor: pointer;" onchange="filterPayments()">
+                            <option value="all">All Classes</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Last Paid Month</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                    <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Process Payment Section -->
+        <section id="process-payment" class="section-content">
+            <div class="payment-grid">
+                <div class="action-card">
+                    <div class="table-header">
+                        <h3>Process New Payment</h3>
+                    </div>
+
+                    <div class="student-card" id="selectedStudentInfo">
+                        <div>
+                            <h4 id="selectedStudentName" style="color: white; font-size: 1.1rem; margin-bottom: 0.3rem;">No student selected</h4>
+                            <p id="selectedStudentClass" style="color: var(--text-secondary); font-size: 0.9rem;">Please select a student from the list first</p>
+                        </div>
+                        <div style="font-size: 2rem;">👤</div>
+                    </div>
+
+                    <form id="paymentForm">
+                        <div class="input-group">
+                            <label>Payment Amount (UZS)</label>
+                            <input type="text" id="paymentAmount" value="2,000,000" readonly style="color: #cbd5e1; cursor: not-allowed; opacity: 0.8;">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Month to Pay</label>
+                            <div class="custom-select">
+                                <select id="paymentMonth">
+                                    <option value="" disabled selected>Select month...</option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Payment Method</label>
+                            <div class="custom-select">
+                                <select id="paymentMethod">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card (Terminal)">Card (Terminal)</option>
+                                    <option value="Payme / Click">Payme / Click</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="submitPayment()">Confirm Payment</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <div class="table-header">
+                        <h3>Payment Summary</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981;">
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">Total Collected Today</p>
+                            <h3 style="color: white; font-size: 1.8rem;">16,000,000 <span style="font-size: 1rem; color: var(--text-secondary);">UZS</span></h3>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">Pending Payments (Current Month)</p>
+                            <h3 style="color: white; font-size: 1.8rem;">42 <span style="font-size: 1rem; color: var(--text-secondary);">Students</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transaction History Section -->
+        <section id="transaction-history" class="section-content">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Recent Transactions</h3>
+                </div>
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Date</th>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Month Paid</th>
+                        <th>Amount (UZS)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                    <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
 </body>
 </html>
